@@ -113,6 +113,7 @@ exports.signin=async(req,res)=>{
         const payload={
             id:isExist._id,
             accountType:isExist.accountType,
+            email:isExist.email
         
         }
         const token=jwt.sign(payload,process.env.JWT_SECRET);
@@ -143,13 +144,14 @@ exports.signin=async(req,res)=>{
 exports.changepassword=async(req,res)=>{
     try {
         const {oldpassword,newpassword,confirmnewpassword}=req.body;
-        const {id}=req.body.id
+        // const {id}=req.body.id
+        const email=req.user.email
         if(!oldpassword || !newpassword || !confirmnewpassword){
             return res.status(402).json({
                 message:"All fields are required"
             })
         }
-        const user=await User.findById({_id:new mongoose.Types.ObjectId(id)})
+        const user=await User.findOne({email})
 
         if(!bcrypt.compare(oldpassword,user.password)){
             return res.status(403).json({
@@ -157,7 +159,7 @@ exports.changepassword=async(req,res)=>{
             })
         }
         let hashpwd=bcrypt.hash(newpassword,10);
-        await User.findByIdAndUpdate({_id:new mongoose.Types.ObjectId(id)},{
+        await User.findByIdAndUpdate(email,{
             password:hashpwd
         });
         await mailsender(user.email,"Password is updated","Your password has been updated successfully.")
