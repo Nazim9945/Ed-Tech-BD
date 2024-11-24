@@ -67,7 +67,15 @@ exports.signup=async(req,res)=>{
         const profileDetails=await Profile.create({
             gender:null,dataOfbirth:null,contactNumber:null,about:null
         })
-        const user=await User.create( {firstName,lastName,email,password:hashpwd,accountType,additionalDetails:profileDetails._id})
+        const user=await User.create( 
+            {firstName,
+            lastName,
+            email,
+            password:hashpwd,
+            accountType,
+            additionalDetails:profileDetails._id,
+            imageUrl:`https://api.dicebear.com/9.x/initials/svg?seed=${firstName} ${lastName}`
+        })
         console.log(user)
         return res.status(200).json({
             message:"user registered successfully",
