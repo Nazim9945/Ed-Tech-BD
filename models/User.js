@@ -38,6 +38,16 @@ const userschema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Course"
     }],
+
+    token:{
+        type:String,
+        trim:true
+    },
+    resetTokenExpires:{
+        type:Date,
+        default:new Date(Date.now() + 5*60*1000)
+    },
+
     imageUrl:{
         type:String,
         required:true
