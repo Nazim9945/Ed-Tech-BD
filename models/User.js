@@ -45,7 +45,6 @@ const userschema=new mongoose.Schema({
     },
     resetTokenExpires:{
         type:Date,
-        default:new Date(Date.now() + 5*60*1000)
     },
 
     imageUrl:{
