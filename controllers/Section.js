@@ -15,6 +15,11 @@ exports.createSection=async(req,res)=>{
             $push:{
                 courseContent:newSection._id
             }
+        }).populate({
+            path:"courseContent",
+            populate:{
+                path:"subSection"
+            }
         })
         return res.status(200).json({
             message:"section created successfully",
