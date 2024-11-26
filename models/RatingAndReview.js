@@ -6,13 +6,18 @@ User:{
     ref:"User"
 
 },
-Rating:{
+rating:{
     type:Number,
     required:true
 },
-Review:{
+review:{
 type:String,
 required:true
+},
+course:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Course",
+    required:true,
 }
 
 })
