@@ -7,7 +7,7 @@ const {deleteAccount,
     getAllUserDetails,
     
 }= require('../controllers/Profile')
-const {auth}=require('../controllers/Auth')
+const {auth}=require('../middlewares/auth')
 
 router.delete('/deleteProfile', deleteAccount)
 router.post('/updateProfile',auth,updateProfile)

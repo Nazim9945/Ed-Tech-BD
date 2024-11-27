@@ -7,7 +7,7 @@ const mailsender = require('../utils/mailsender');
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 
-epxorts.sendotp=async(req,res)=>{
+exports.sendotp=async(req,res)=>{
 try {
     const {email}=req.body;
     const isExist=await User.findOne({email});

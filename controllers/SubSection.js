@@ -65,7 +65,7 @@ exports.subSectionUpdate=async(req,res)=>{
 
 //delete
 
-exports.createSubSection=async(req,res)=>{
+exports.deleteSubSection=async(req,res)=>{
     try {
         const {sectionId,subSectionId}=req.body;
         if(!sectionId || !subSectionId){
