@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+require('dotenv').config()
 exports.dbconnect=async()=>{
     try {
         mongoose.connect(process.env.DATABASE_URL).then(()=>{

@@ -1,5 +1,5 @@
 const cloudinary=require('cloudinary')
-
+require('dotenv').config()
 exports.cloudinary=async()=>{
     cloudinary.config({
         cloud_name: process.env.CLOUD_NAME, 
