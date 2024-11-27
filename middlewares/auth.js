@@ -4,7 +4,9 @@ const bcrypt=require('bcrypt')
 require('dotenv').config()
 exports.auth=async(req,res,next)=>{
     try {
-        let {token}=req.headers('Authorization') || req.cookies.token;
+       
+        let token= req.get('Authorization') || req.cookies.token;
+         console.log(token)
         if(!token || !token.startsWith("Bearer")){
           
         return res.status(404).json({
@@ -12,9 +14,12 @@ exports.auth=async(req,res,next)=>{
                 message:"token is missing"
             })
         }
-        token=token.split("Bearer")[1];
-        let decode=jwt.verify(token,process.env.JWT_SECRET);
-        console.log(decode)
+        token=token.split("Bearer ")[1];
+        console.log(token)
+       try {
+        console.log("running")
+         let decode= jwt.verify(token,process.env.JWT_SECRET);
+ console.log(decode)
         if(!decode){
            
         return res.status(404).json({
@@ -22,9 +27,19 @@ exports.auth=async(req,res,next)=>{
                 message:"error while decoding token"
             })
         }
+        
         req.user=decode
         
         next()
+       } catch (error) {
+        console.log(error)
+        return res.status(400).json({
+message:error.message
+        })
+        
+       }
+     
+     
         
     } catch (error) {
         console.log(error)

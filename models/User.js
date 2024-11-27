@@ -22,7 +22,7 @@ const userschema=new mongoose.Schema({
     },
     confirmPassword:{
         type:String,
-        required:true
+        // required:true
     },
     accountType:{
         type:String,

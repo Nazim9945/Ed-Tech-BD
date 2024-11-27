@@ -16,7 +16,7 @@ const resetpasswordtoken=async(req,res)=>{
         })
 
         //verify email
-        const isExist=await findOne(email);
+        const isExist=await User.findOne({email:email});
         if(!isExist){
             return res.status(400).json({
                 message:"This email is not registered!"
@@ -30,7 +30,7 @@ const resetpasswordtoken=async(req,res)=>{
 
 
         //enter token in user
-        await User.findOneAndUpdate(email,{token,resetTokenExpires:Date.now() + 5*60*1000});
+        await User.findOneAndUpdate({email:email},{token,resetTokenExpires:Date.now() + 5*60*1000});
 
 
 
@@ -38,7 +38,7 @@ const resetpasswordtoken=async(req,res)=>{
         const url=`http://localhost:3000/update-password/${token}`;
 
         //mail sent
-        await mailsender(email,"RESET YOUR PASSWORD",`You can reset your password through this link ${url}`)
+         mailsender(email,"RESET YOUR PASSWORD",`You can reset your password through this link ${url}`)
 
 
         //res
@@ -83,7 +83,7 @@ const resetpasswordupdate=async(req,res)=>{
 
         //check token expiration time
 
-        const user=await User.findOne(token);
+        const user=await User.findOne({token:token});
         
         if(Date.now()>user.resetTokenExpires){
             return res.status(404).json({
@@ -92,9 +92,9 @@ const resetpasswordupdate=async(req,res)=>{
         }
         //hashpassword
 
-        const hashpwd=await bcrypt.hash(password,10);
+        const hashpwd=await bcrypt.hash(newpassword,10);
 
-        await User.findOneAndUpdate(token,{password:hashpwd});
+        await User.findOneAndUpdate({token:token},{password:hashpwd});
 
         return res.status(200).json({
             message:"Password reset successfully!"

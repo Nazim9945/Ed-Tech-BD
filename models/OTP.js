@@ -11,7 +11,7 @@ const OTPschema=new mongoose.Schema({
     expires:5*60
    },
    otp:{
-    type:Number,
+    type:String,
     required:true,
     trim:true
    }
@@ -22,6 +22,7 @@ const OTPschema=new mongoose.Schema({
 //using pre-save middleware
 async function sendingVerificationMail(email,otp){
     try {
+        console.log(email,otp)
         const responseinfo=await mailsender(email,"Verification email from Studypath",otp);
         console.log("mail sent successfully",responseinfo)
         

@@ -1,5 +1,5 @@
 //send otp
-const otp=require('otp-generator');
+const otpgenerator=require('otp-generator');
 const OTP = require('../models/OTP');
 const User=require('../models/User');
 const Profile = require('../models/Profile');
@@ -18,16 +18,16 @@ try {
         })
     }
     //TODO:Must unique
-    const Otp=otp.generate(6, 
-        { upperCaseAlphabets: false, specialChars: false,specialChars:false });
+    const otp=otpgenerator.generate(6, 
+        { upperCaseAlphabets: false, lowerCaseAlphabets: false,specialChars:false });
 
-    const response=await OTP.create({email,Otp});
+    const response=await OTP.create({email,otp});
 
     console.log(response)
     return res.status(200).json({
         success:true,
         message:"Otp sent successfully",
-        Otp
+        otp
     })
 
     
@@ -56,8 +56,10 @@ exports.signup=async(req,res)=>{
                 message:"Password is incorrect"
             })
         }
-        const recentOtp=await OTP.find({email}).sort({createdAt:-1}).limit(1)
-        if(recentOtp.otp!==otp){
+        let recentOtp=await OTP.find({email}).sort({createdAt:-1}).limit(1)
+        recentOtp=recentOtp[0].otp
+        console.log(recentOtp,otp,typeof(otp))
+        if(recentOtp!==otp){
             return res.status(403).json({
                 success:false,
                 message:"You have Entered Wrong Otp."
@@ -111,7 +113,7 @@ exports.signin=async(req,res)=>{
                 message:"Please Register first!"
             })
         }
-        const verifypassword=bcrypt.compare(password,isExist.password);
+        const verifypassword=await bcrypt.compare(password,isExist.password);
         if(!verifypassword){
         return res.status(404).json({
                 success:false,
@@ -132,7 +134,7 @@ exports.signin=async(req,res)=>{
             success:true,
             message:"Logged in Successfully",
             token,
-
+            isExist
         })
         
     } catch (error) {
@@ -159,18 +161,18 @@ exports.changepassword=async(req,res)=>{
                 message:"All fields are required"
             })
         }
-        const user=await User.findOne({email})
+        const user=await User.findOne({email:email})
 
         if(!bcrypt.compare(oldpassword,user.password)){
             return res.status(403).json({
                 message:"old password is incorrect"
             })
         }
-        let hashpwd=bcrypt.hash(newpassword,10);
-        await User.findByIdAndUpdate(email,{
+        let hashpwd=await bcrypt.hash(newpassword,10);
+        const updatePasswordUser=await User.findOneAndUpdate({email:email},{
             password:hashpwd
         });
-        await mailsender(user.email,"Password is updated","Your password has been updated successfully.")
+        const info=await mailsender(user.email,"Password is updated","Your password has been updated successfully.")
 
         return res.status(200).json({
             message:"password is updated successfully."
