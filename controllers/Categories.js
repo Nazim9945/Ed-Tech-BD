@@ -12,7 +12,7 @@ exports.createCategory=async(req,res)=>{
         }
 
         const response=await Category.create({name,description});
-        return res.status(200),json({
+        return res.status(200).json({
 
             message:"Category created successfully",
             response

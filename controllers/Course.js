@@ -1,15 +1,17 @@
 const Category=require('../models/Category')
 const Course=require('../models/Course')
-const uploadFiles=require('../utils/uploadFiles')
+const {uploadFiles}=require('../utils/uploadFiles')
+const User=require('../models/User')
+require('dotenv').config()
 exports.createCourse=async(req,res)=>{
     try {
-        const {courseName,courseDescription,price,whatYouWillLearn,category}=req.body
-        if(!courseName || !courseDescription || !price || !whatYouWillLearn || !category){
+        const {courseName,courseDescription,price,whatYouWillLearn,category,tag}=req.body
+        if(!courseName || !courseDescription || !price || !whatYouWillLearn || !category || !tag){
             return res.status(411).json({
                 message:"All fields are required"
             })
         }
-        const thumbnail=req.files.thumbnail;
+        const thumbnail=req.files.thumbnailImage;
         if(!thumbnail){
             return res.status(403).json({
                 message:"Thumbnail not found"
@@ -23,10 +25,10 @@ exports.createCourse=async(req,res)=>{
             })
         }
         //upload on cloudinary
-        const fileresponse=uploadFiles(thumbnail,process.env.FOLDER_NAME,100);
+        const fileresponse=await uploadFiles(thumbnail,process.env.FOLDER_NAME,100);
         console.log(fileresponse)
 
-        const newCourse=await Course.create({courseName,courseDescription,price,thumbnail:fileresponse.secure_url,instructor:req.user.id,category})
+        const newCourse=await Course.create({courseName,courseDescription,price,whatYouWillLearn,thumbnail:fileresponse.secure_url,instructor:req.user.id,category,tag})
 
         await Category.findOneAndUpdate({_id:category},{
             $push:{

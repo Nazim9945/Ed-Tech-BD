@@ -25,7 +25,7 @@ router.get('/getCourseDetails/:id',getCourseDetails)
 // categories
 
 router.get('/showAllCategories',showAllCategories)
-router.post('/createCategory',isAdmin,createCategory)
+router.post('/createCategory',auth,isAdmin,createCategory)
 router.get('/categoryPageDetails',categoryPageDetails)
 
 //subsection & section

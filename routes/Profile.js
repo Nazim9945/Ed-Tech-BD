@@ -11,7 +11,7 @@ const {deleteAccount,
 const {auth}=require('../middlewares/auth')
 
 router.delete('/deleteProfile', deleteAccount)
-router.post('/updateProfile',auth,updateProfile)
+router.put('/updateProfile',auth,updateProfile)
 router.put('/updateProfilePic',auth,updateProfilePic)
 router.get('/getalluserdetails',auth,getAllUserDetails)
 

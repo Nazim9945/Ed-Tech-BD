@@ -98,7 +98,7 @@ exports.isAdmin=async(req,res,next)=>{
 //isInstructor
 exports.isInstructor=async(req,res,next)=>{
     try {
-        if(req.user.accountType!='Instrutor'){
+        if(req.user.accountType!='Instructor'){
             return res.status(404).json({
                 message:"This route is protected for Instructor"
             })

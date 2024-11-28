@@ -16,7 +16,7 @@ exports.updateProfile=async(req,res)=>{
         
         const user=await User.findOne({_id:userId});
         const profileId=user.additionalDetails;
-        const profileDetails=await findByIdAndUpdate({_id:profileId},{gender,dateOfbirth,about ,contactNumber},{new:true});
+        const profileDetails=await Profile.findByIdAndUpdate({_id:profileId},{gender,dateOfbirth,about ,contactNumber},{new:true});
 
 
         return res.status(200).json({
@@ -78,11 +78,11 @@ exports.deleteAccount=async(req,res)=>{
 
 //get user
 
-exports.getAllUserDetails=async(rea,res)=>{
+exports.getAllUserDetails=async(req,res)=>{ 
     try {
         const id=req.user.id;
         const alluser=await User.find({}).populate("additionalDetails").exec();
-        return res.status(404).json({
+        return res.status(200).json({
             message:"fetched all user details successfully",
             alluser
         })

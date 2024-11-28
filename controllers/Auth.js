@@ -57,8 +57,9 @@ exports.signup=async(req,res)=>{
             })
         }
         let recentOtp=await OTP.find({email}).sort({createdAt:-1}).limit(1)
+         console.log("kya hua ",recentOtp,otp,typeof(otp))
         recentOtp=recentOtp[0].otp
-        console.log(recentOtp,otp,typeof(otp))
+       
         if(recentOtp!==otp){
             return res.status(403).json({
                 success:false,

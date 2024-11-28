@@ -1,11 +1,11 @@
 const mongoose =require('mongoose')
 const course=new mongoose.Schema({
-   CourseName:{
+   courseName:{
     type:String,
     trim:true,
     required:true
    },
-   CourseDescription:{
+   courseDescription:{
     type:String,
     required:true,
     trim:true,
