@@ -76,7 +76,7 @@ exports.signup=async(req,res)=>{
             password:hashpwd,
             accountType,
             additionalDetails:profileDetails._id,
-            imageUrl:`https://api.dicebear.com/9.x/initials/svg?seed=${firstName} ${lastName}`
+            imageUrl:`https://api.dicebear.com/9.x/initials/svg?seed="${firstName} ${lastName}"`
         })
         console.log(user)
         return res.status(200).json({

@@ -2,7 +2,8 @@
 
 const Profile = require("../models/Profile")
 const User = require("../models/User")
-
+const {uploadFiles}=require('../utils/uploadFiles')
+require('dotenv').config()
 exports.updateProfile=async(req,res)=>{
     try {
         const {gender,dateOfbirth="",about="",contactNumber=""}=req.body
@@ -90,6 +91,37 @@ exports.getAllUserDetails=async(rea,res)=>{
          console.log(error);
         return res.status(404).json({
             message:"failed to fetch user details"
+        })
+    }
+}
+
+
+//update profile pic
+
+exports.updateProfilePic=async(req,res)=>{
+    try {
+        const userId=req.user.id
+        const file=req.files.profilePic
+        if(!file){
+            return res.status(404).json({
+                message:"File is missing"
+            })
+        }
+
+        const uploadOnCloudinary=await uploadFiles(file,process.env.FOLDER_NAME)
+        console.log(uploadOnCloudinary)
+        const user=await User.findByIdAndUpdate({_id:userId},{
+            imageUrl:uploadOnCloudinary.secure_url
+        },{new:true})
+
+        return res.json({
+            message:"profile pic updated",
+            user
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({
+            message:"failed to update profile pic"
         })
     }
 }
