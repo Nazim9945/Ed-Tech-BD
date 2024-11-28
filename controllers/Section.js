@@ -91,3 +91,21 @@ exports.sectionDelete=async(req,res)=>{
         })
     }
 }
+
+
+//getall section
+
+exports.getAllSection=async(req,res)=>{
+    try {
+        const allsection=await Section.find({});
+        return res.status(200).json({
+            message:"fecthed all section",
+            allsection
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(404).json({
+            message:"failed to fecthed sections"
+        })
+    }
+}

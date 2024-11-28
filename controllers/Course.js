@@ -81,9 +81,9 @@ exports.getAllCourse=async(req,res)=>{
 
 exports.getCourseDetails=async(req,res)=>{
     try {
-        // const {courseId}=req.body;
+        const {courseId}=req.body;
         // or
-        const {courseId}=req.params
+        // const {courseId}=req.params
         const courseDetails=await Course.findById({_id:courseId}).populate({
             path:"instructor",
             populate:{
@@ -91,10 +91,10 @@ exports.getCourseDetails=async(req,res)=>{
             }
         }).populate({
             path:"courseContent",
-                populate:{
-                    path:"SubSection" 
-                }
-        }).populate("category").populate("ratingAndreviews").exec()
+                // populate:{
+                //     path:"subSection" 
+                // }
+        }).populate("category").exec()
         
         if(!courseDetails){
             return res.status(404).json({

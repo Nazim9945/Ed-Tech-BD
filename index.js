@@ -8,13 +8,12 @@ const {dbconnect}=require('./config/dbconnect')
 const {cloudinary}=require('./config/cloudinary')
 
 //routes
-console.log("ok1")
 const userRoutes=require('./routes/User')
 const courseRoutes=require('./routes/Course')
 // const paymentRoutes=require('./routes/Payments')
 const profileRoutes=require('./routes/Profile')
 
-console.log("ok2")
+
 const PORT=process.env.PORT || 5000
 dbconnect()
 cloudinary()
