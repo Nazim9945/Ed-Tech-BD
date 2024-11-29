@@ -8,7 +8,7 @@ const OTPschema=new mongoose.Schema({
    createdAt:{
     type:Date,
     default:Date.now(),
-    expires:5*60
+    expires:5*60*1000
    },
    otp:{
     type:String,
@@ -20,21 +20,21 @@ const OTPschema=new mongoose.Schema({
 })
 // mail sending funtionality here
 //using pre-save middleware
-async function sendingVerificationMail(email,otp){
-    try {
-        console.log(email,otp)
-        const responseinfo=await mailsender(email,"Verification email from Studypath",otp);
-        console.log("mail sent successfully",responseinfo)
+// async function sendingVerificationMail(email,otp){
+//     try {
+//         console.log(email,otp)
+//         const responseinfo=await mailsender(email,"Verification email from Studypath",otp);
+//         console.log("mail sent successfully",responseinfo)
         
-    } catch (error) {
-        console.log("issue while sending mail")
-        console.log(error)
-    }
-}
-OTPschema.pre('save',async function(next){
-    await sendingVerificationMail(this.email,this.otp);
-    next()
-})
+//     } catch (error) {
+//         console.log("issue while sending mail")
+//         console.log(error)
+//     }
+// }
+// OTPschema.pre('save',async function(next){
+//     await sendingVerificationMail(this.email,this.otp);
+//     next()
+// })
 
 
 module.exports=mongoose.model("OTP",OTPschema)

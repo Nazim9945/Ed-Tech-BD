@@ -13,7 +13,7 @@ const { createRating, getAvgRating, getAllRating } = require('../controllers/Rat
 
 //middlewares
 
-const {auth,isAdmin,isInstructor}=require('../middlewares/auth')
+const {auth,isAdmin,isInstructor,isStudent}=require('../middlewares/auth')
 //course
 router.post('/createCourse',auth,isInstructor,createCourse);
 router.get('/getAllCourse',getAllCourse)
@@ -27,17 +27,17 @@ router.post('/createCategory',auth,isAdmin,createCategory)
 router.get('/categoryPageDetails',categoryPageDetails)
 
 //subsection & section
-router.get('/getAllSection',getAllSection)
-router.post('/createSection',createSection)
-router.post('/sectionUpdate',sectionUpdate)
-router.post('/createSubSection',createSubSection)
-router.post('/subSectionUpdate',subSectionUpdate)
-router.delete('/deleteSubSection/:id',deleteSubSection)
-router.delete('/deleteSection/:id',sectionDelete)
+router.get('/getAllSection',auth,isInstructor,getAllSection)
+router.post('/createSection',auth,isInstructor,createSection)
+router.post('/sectionUpdate',auth,isInstructor,sectionUpdate)
+router.post('/createSubSection',auth,isInstructor,createSubSection)
+router.post('/subSectionUpdate',auth,isInstructor,subSectionUpdate)
+router.delete('/deleteSubSection/:id',auth,isInstructor,deleteSubSection)
+router.delete('/deleteSection/:id',auth,isInstructor,sectionDelete)
 
 
 //rating and reviews
-router.post('/createRating',createRating)
+router.post('/createRating',auth,isStudent,createRating)
 router.get('/getAvgRating',getAvgRating)
 router.get('/getAllRating',getAllRating)
 

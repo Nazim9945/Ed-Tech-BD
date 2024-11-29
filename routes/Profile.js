@@ -4,15 +4,15 @@ const router=express.Router()
 
 const {deleteAccount,
     updateProfile,
-    getAllUserDetails,
+    getUserDetails,
     updateProfilePic
     
 }= require('../controllers/Profile')
 const {auth}=require('../middlewares/auth')
 
-router.delete('/deleteProfile', deleteAccount)
+router.delete('/deleteProfile',auth, deleteAccount)
 router.put('/updateProfile',auth,updateProfile)
 router.put('/updateProfilePic',auth,updateProfilePic)
-router.get('/getalluserdetails',auth,getAllUserDetails)
+router.get('/getUserDetails',auth,getUserDetails)
 
 module.exports=router

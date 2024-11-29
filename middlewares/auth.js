@@ -17,24 +17,15 @@ exports.auth=async(req,res,next)=>{
         token=token.split("Bearer ")[1];
         console.log(token)
        try {
-        console.log("running")
          let decode= jwt.verify(token,process.env.JWT_SECRET);
- console.log(decode)
-        if(!decode){
-           
-        return res.status(404).json({
-                success:false,
-                message:"error while decoding token"
-            })
-        }
-        
+        console.log(decode)
         req.user=decode
         
         next()
        } catch (error) {
         console.log(error)
         return res.status(400).json({
-message:error.message
+                message:"Invalid token"
         })
         
        }

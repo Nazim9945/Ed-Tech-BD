@@ -20,7 +20,8 @@ exports.updateProfile=async(req,res)=>{
 
 
         return res.status(200).json({
-            message:"profile updated successfully"
+            message:"profile updated successfully",
+            profileDetails
         })
 
         
@@ -78,13 +79,18 @@ exports.deleteAccount=async(req,res)=>{
 
 //get user
 
-exports.getAllUserDetails=async(req,res)=>{ 
+exports.getUserDetails=async(req,res)=>{ 
     try {
         const id=req.user.id;
-        const alluser=await User.find({}).populate("additionalDetails").exec();
+        const userDetails=await User.findOne({_id:id}).populate("additionalDetails").exec();
+        if(!userDetails){
+            return res.status(400).json({
+                message:"No User found"
+            })
+        }
         return res.status(200).json({
             message:"fetched all user details successfully",
-            alluser
+            data:userDetails
         })
         
     } catch (error) {

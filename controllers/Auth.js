@@ -20,7 +20,9 @@ try {
     //TODO:Must unique
     const otp=otpgenerator.generate(6, 
         { upperCaseAlphabets: false, lowerCaseAlphabets: false,specialChars:false });
+    
 
+     const responseinfo=await mailsender(email,"Verification email from Studypath",otp);
     const response=await OTP.create({email,otp});
 
     console.log(response)
@@ -57,6 +59,11 @@ exports.signup=async(req,res)=>{
             })
         }
         let recentOtp=await OTP.find({email}).sort({createdAt:-1}).limit(1)
+        if(recentOtp.length===0){
+            return res.status(404).json({
+                message:"otp is not found"
+            })
+        }
          console.log("kya hua ",recentOtp,otp,typeof(otp))
         recentOtp=recentOtp[0].otp
        
