@@ -11,11 +11,11 @@ exports.createSection=async(req,res)=>{
 
         //update course
 
-        await Course.findOneAndUpdate({_id:courseId},{
+        const courseUpdate=await Course.findOneAndUpdate({_id:courseId},{
             $push:{
                 courseContent:newSection._id
             }
-        }).populate({
+        },{new:true}).populate({
             path:"courseContent",
             populate:{
                 path:"subSection"
@@ -23,7 +23,7 @@ exports.createSection=async(req,res)=>{
         })
         return res.status(200).json({
             message:"section created successfully",
-            newSection,
+            courseUpdate,
 
         })
 

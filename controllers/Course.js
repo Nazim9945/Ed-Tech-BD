@@ -79,7 +79,7 @@ exports.getAllCourse=async(req,res)=>{
 //getCourseDetails
 
 
-exports.getCourseDetails=async(req,res)=>{
+exports.getCourseDetail=async(req,res)=>{
     try {
         const {courseId}=req.body;
         // or
@@ -91,9 +91,9 @@ exports.getCourseDetails=async(req,res)=>{
             }
         }).populate({
             path:"courseContent",
-                // populate:{
-                //     path:"subSection" 
-                // }
+                populate:{
+                    path:"subSection" 
+                }
         }).populate("category").exec()
         
         if(!courseDetails){

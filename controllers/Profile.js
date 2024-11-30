@@ -1,5 +1,5 @@
 //needs update->beacuse alredy added when user created
-
+const Course=require('../models/Course')
 const Profile = require("../models/Profile")
 const User = require("../models/User")
 const {uploadFiles}=require('../utils/uploadFiles')
@@ -41,9 +41,16 @@ exports.deleteAccount=async(req,res)=>{
     try {
         const {courseId}=req.body;
         const userId=req.user.id;
-        if(!userId || !courseId){
+         const role=req.user.accountType
+        if(!userId || !courseId || !role){
             return res.status(400).json({
                 message:"fields are missing"
+            })
+        }
+       
+        if(role==='Instructor'){
+            return res.status(404).json({
+                message:"At least one of the admin permission is require"
             })
         }
        const user=await User.findOne({_id:userId});
@@ -54,11 +61,13 @@ exports.deleteAccount=async(req,res)=>{
        }
         const profileId=user.additionalDetails;
         await Profile.findByIdAndDelete({_id:profileId});
-        await Course.findByIdAndUpdate({_id:courseId},{
+       if(role!=='Admin'){
+         await Course.findByIdAndUpdate({_id:courseId},{
             $pull:{
                 studentEnrolled:userId
             }
         })
+       }
         
 
         //cron-job try implementing scheduling task or api
@@ -71,7 +80,7 @@ exports.deleteAccount=async(req,res)=>{
     } catch (error) {
         console.log(error);
         return res.status(404).json({
-            message:"failed to delete user account"
+            message:`failed to delete ${role} account`
         })
     }
 }

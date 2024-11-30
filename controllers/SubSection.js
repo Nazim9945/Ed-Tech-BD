@@ -5,17 +5,22 @@ const Section = require('../models/Section');
 const { uploadFiles } = require('../utils/uploadFiles');
 exports.createSubSection=async(req,res)=>{
     try {
+        
+        const file=req.files.videoFile
         const {sectionId,title,description,timeDuration}=req.body;
-        const file=req.body.vedioFile;
-
+          if(!file){
+            return res.status(404).json({
+                message:"File is missing"
+            })
+        }
         //validation
         if(!sectionId || !title || !description || !timeDuration || !file){
             return res.status(403).json({
                 message:"All fields are required"
             })
         }
-        const fileresponse=uploadFiles(file,process.env.FOLDER_NAME,100)
-
+        const fileresponse=await uploadFiles(file,process.env.FOLDER_NAME)
+       console.log(fileresponse)
         const newSubSection=await SubSection.create({title,description,vedioUrl:fileresponse.secure_url,timeDuration});
 
         await Section.findByIdAndUpdate({_id:sectionId},{

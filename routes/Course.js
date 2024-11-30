@@ -2,7 +2,7 @@ const express=require('express')
 const router=express.Router()
 
 //imports
-const{createCourse,getAllCourse,getCourseDetails}=require('../controllers/Course')
+const{createCourse,getAllCourse,getCourseDetail}=require('../controllers/Course')
 
 const {createCategory,showAllCategories,categoryPageDetails}=require('../controllers/Categories')
 const {createSection,sectionUpdate,sectionDelete, getAllSection}=require('../controllers/Section')
@@ -17,7 +17,7 @@ const {auth,isAdmin,isInstructor,isStudent}=require('../middlewares/auth')
 //course
 router.post('/createCourse',auth,isInstructor,createCourse);
 router.get('/getAllCourse',getAllCourse)
-router.get('/getCourseDetails/:id',getCourseDetails)
+router.get('/getCourseDetail',getCourseDetail)
 
 
 // categories
