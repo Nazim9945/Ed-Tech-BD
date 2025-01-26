@@ -4,6 +4,7 @@ const mailsender=async(email,title,body)=>{
 console.log( process.env.MAIL_HOST)
     try {
         const transporter = nodemailer.createTransport({
+            // service:'gmail',
             host: process.env.MAIL_HOST,
             port: 587,
             secure: false, 
@@ -13,19 +14,21 @@ console.log( process.env.MAIL_HOST)
             },
 
         });
-        console.log(email,title,body)
+        // 
+        console.log(email,title)
+        console.log("working till here")
         const info =await transporter.sendMail({
-            from: "StudyPathway",
-            to: email,
-            subject: title,
-            html: body
+            from: "saifinazim2311@gmail.com",
+            to:email,
+            subject: `${title}`,
+            html: body,
   });
   console.log("koi hai bhia idhar")
   console.log("inside mailsender",info);
   return info
         
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         console.log(error.message)
     }
 

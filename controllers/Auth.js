@@ -5,7 +5,8 @@ const User=require('../models/User');
 const Profile = require('../models/Profile');
 const mailsender = require('../utils/mailsender');
 const bcrypt=require('bcrypt')
-const jwt=require('jsonwebtoken')
+const jwt=require('jsonwebtoken');
+const { OtpVerification } = require('../mail/emailVerificationOtp');
 
 exports.sendotp=async(req,res)=>{
 try {
@@ -21,17 +22,34 @@ try {
     const otp=otpgenerator.generate(6, 
         { upperCaseAlphabets: false, lowerCaseAlphabets: false,specialChars:false });
     
-
-     const responseinfo=await mailsender(email,"Verification email from Studypath",otp);
-    const response=await OTP.create({email,otp});
-
-    console.log(response)
-    return res.status(200).json({
+        const mailbody=OtpVerification(otp);
+    try {
+         const responseinfo=await mailsender(email,"OTP Email verification",mailbody);
+         console.log("sent successfully ",responseinfo)
+         if(!responseinfo){
+            return res.status(400).json({
+                message:"error while mailing otp"
+            })
+         }
+          const response=await OTP.create({email,otp});
+           return res.status(200).json({
         success:true,
         message:"Otp sent successfully",
         otp
     })
 
+    } catch (error) {
+        console.log("error while sending otp",error);
+        return res.status(404).json({
+            success:false,
+            message:"error while sending otp "
+        })
+
+    }
+    
+   
+
+   
     
 
 } catch (error) {
