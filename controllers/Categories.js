@@ -77,6 +77,7 @@ exports.categoryPageDetails=async(req,res)=>{
 
         const allCourses= allCategories.flatMap(cat=>cat.course);
         //needs a variable to determine which course is top-selling
+        //TODO:
 
 
     } catch (error) {

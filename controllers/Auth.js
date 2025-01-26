@@ -169,6 +169,13 @@ exports.changepassword=async(req,res)=>{
                 message:"All fields are required"
             })
         }
+        //TODO: check password and confirm password match
+        if(newpassword!=confirmnewpassword){
+            return res.status(201).json({
+                success:false,
+                message:"password not matching"
+            })
+        }
         const user=await User.findOne({email:email})
 
         if(!bcrypt.compare(oldpassword,user.password)){

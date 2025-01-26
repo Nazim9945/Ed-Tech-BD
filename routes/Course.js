@@ -27,6 +27,7 @@ router.post('/createCategory',auth,isAdmin,createCategory)
 router.get('/categoryPageDetails',categoryPageDetails)
 
 //subsection & section
+//needs--changes
 router.get('/getAllSection',auth,isInstructor,getAllSection)
 router.post('/createSection',auth,isInstructor,createSection)
 router.post('/sectionUpdate',auth,isInstructor,sectionUpdate)
