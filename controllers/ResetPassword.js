@@ -38,11 +38,12 @@ const resetpasswordtoken=async(req,res)=>{
         const url=`http://localhost:3000/update-password/${token}`;
 
         //mail sent
-         mailsender(email,"RESET YOUR PASSWORD",`You can reset your password through this link ${url}`)
+       mailsender(email,"RESET YOUR PASSWORD",`You can reset your password through this link ${url}`)
+        
 
 
         //res
-        return res.status(200).status({
+        return res.status(200).json({
             message:"Password reset link sent successfully"
         })
 

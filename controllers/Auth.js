@@ -196,7 +196,7 @@ exports.changepassword=async(req,res)=>{
         }
         const user=await User.findOne({email:email})
 
-        if(!bcrypt.compare(oldpassword,user.password)){
+        if(!await bcrypt.compare(oldpassword,user.password)){
             return res.status(403).json({
                 message:"old password is incorrect"
             })

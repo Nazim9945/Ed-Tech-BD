@@ -6,17 +6,29 @@ const {uploadFiles}=require('../utils/uploadFiles')
 require('dotenv').config()
 exports.updateProfile=async(req,res)=>{
     try {
-        const {gender,dateOfbirth="",about="",contactNumber=""}=req.body
+        const {gender,dateOfbirth,about,contactNumber}=req.body
+
         const userId=req.user.id
-        if(!userId || !gender){
+
+        if(!gender){
             return res.status(400).json({
-                message:"All fields are required"
+                message:"Please fill the gender field"
             })
         }
         
         const user=await User.findOne({_id:userId});
         const profileId=user.additionalDetails;
-        const profileDetails=await Profile.findByIdAndUpdate({_id:profileId},{gender,dateOfbirth,about ,contactNumber},{new:true});
+         const profile=await Profile.findById({_id:profileId});
+
+        profile.dateOfbirth=dateOfbirth || profile.dateOfbirth;
+        profile.contactNumber=contactNumber || profile.contactNumber;
+        profile.about=about || profile.about;
+        profile.gender=gender;
+        
+        
+
+//needs changes here
+        const profileDetails=await Profile.findByIdAndUpdate({_id:profileId},profile,{new:true});
 
 
         return res.status(200).json({
@@ -42,6 +54,8 @@ exports.deleteAccount=async(req,res)=>{
         const {courseId}=req.body;
         const userId=req.user.id;
          const role=req.user.accountType
+         //what if user just came to plateform and want to dlt account then
+        //  must user  have a course id necessaary->NO
         if(!userId || !courseId || !role){
             return res.status(400).json({
                 message:"fields are missing"
