@@ -1,10 +1,17 @@
-import { Button } from "./components/ui/button";
+import { Route, Routes} from "react-router";
+import HomePage from "./Pages/HomePage";
+
 
 
 function App(){
-  return <div>
-      <div className="text-2xl bg-amber-300">Hi There</div>
-      <Button >New Button</Button>
-  </div>
+  return (
+    <main className="">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {/* <Route path="/about" element={<AboutPage />} />
+      <Route path="/contact" element={<ContactPage />} /> */}
+      </Routes>
+    </main>
+  );
 }
 export default App;
