@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { motion } from "motion/react";
-
+import personCoding from '@/public/person-coding-on-laptop-in-bright-modern-workspace.jpg'
 export function Hero() {
   return (
     <section className="relative overflow-hidden py-20 md:py-32">
@@ -21,7 +21,7 @@ export function Hero() {
               className="inline-block mb-4"
             >
               <span className="px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
-                 Learn at Your Own Pace
+                Learn at Your Own Pace
               </span>
             </motion.div>
 
@@ -79,7 +79,7 @@ export function Hero() {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="/person-coding-on-laptop-in-bright-modern-workspace.jpg"
+                src={personCoding}
                 alt="Person learning to code"
                 className="w-full h-auto"
               />

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Code2, Moon, Menu, X } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
+import { Link } from "react-router";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,8 +18,10 @@ export function Header() {
     >
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Code2 className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold text-foreground">CodeCraft</span>
+          <Link to={'/'}>
+            <Code2 className="h-6 w-6 text-primary" />
+            <span className="text-xl font-bold text-foreground">CodeCraft</span>
+          </Link>
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -53,9 +56,11 @@ export function Header() {
           </Button>
 
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm">
-              Sign In
-            </Button>
+            <Link to={"/login"}>
+              <Button variant="ghost" size="sm">
+                Sign In
+              </Button>
+            </Link>
             <Button
               size="sm"
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
@@ -110,9 +115,11 @@ export function Header() {
               Pricing
             </a>
             <div className="flex flex-col gap-2 pt-2">
-              <Button variant="ghost" size="sm">
-                Sign In
-              </Button>
+              <Link to={"/login"}>
+                <Button variant="ghost" size="sm">
+                  Sign In
+                </Button>
+              </Link>
               <Button
                 size="sm"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
